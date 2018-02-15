@@ -1,0 +1,33 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+input{
+  background: #355585;
+  border-radius: 5px;
+  border: 1px solid #ffd7d7;
+  padding: 5px 0 5px 20px;
+}
+
+.form__wrap{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form__wrap form{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 500px;
+  height: 300px;
+}
+
+.form__wrap form input + input{
+  margin-top: 10px;
+}

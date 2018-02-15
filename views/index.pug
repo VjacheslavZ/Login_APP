@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  //h1 hello
+
+  //h1= title
+  //p Welcome to #{title}
+  .form__wrap
+    form
+      .form-row
+
+        .is-valid
+        .col-md-4.mb-3
+              label(for='validationServer01') First name
+              input#validationServer01.form-control.is-valid(type='text', placeholder='First name', value='Mark', required='')
+              .valid-feedback
+                | Looks good!
+        .col-md-4.mb-3
+          label(for='validationServerUsername') User
+          .input-group
+            input#validationServerUsername.form-control.is-invalid(type='text', placeholder='Username', aria-describedby='inputGroupPrepend3', required='')
+            .invalid-feedback
+              | Please choose a username.
+
+      button.btn.btn-primary(type='submit') Submit form
+
+
+
