@@ -30,9 +30,9 @@ var users = [
     }
 ];
 
-app.get('/', function (req, res) {
-    res.send("hello");
-});
+// app.get('/', function (req, res) {
+//     res.send("hello");
+// });
 app.get('/users', function (req, res) {
     res.send(users);
 });
@@ -51,10 +51,10 @@ app.post('/users', function (req, res) {
         name: req.body.name
     };
 
-    console.log(req.body);
+    console.log(JSON.stringify(req.body));
 
     users.push(user);
-    res.send("post data")
+    res.send(JSON.stringify(req.body))
 });
 
 app.listen(3012, function () {
@@ -72,7 +72,7 @@ app.use(logger('dev'));
 // app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', index);
+app.use('/', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
