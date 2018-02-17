@@ -1,65 +1,62 @@
 var express = require('express');
-var app = express();
+var app = express(),
+    bodyParser = require('body-parser'),
+    path = require('path'),
+    logger = require('morgan'),
+    cookieParser = require('cookie-parser'),
+    index = require('./routes/index'),
+    port = 8080;
 
-
-
-var path = require('path');
-// var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var index = require('./routes/index');
 // var users = require('./routes/users');
+const mongoose = require('mongoose');
 
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/myApp', { })
+    .then(() => console.log('mongoDB started'))
+    .catch( e => console.log(e) );
 
-var bodyParser = require('body-parser');
-app.use(bodyParser.json()); /*парсим json*/
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
+app.use(bodyParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get('/users', function (req, res) {
+    res.send("users");
+});
 
 
 var users = [
     {
-        id: 1,
-        name: "Slavik"
+        id: "x",
+        name: "1",
+        password: "2",
+        confirmPassword: "3",
+        email: "4"
     },
     {
-        id: 2,
-        name: 'Alex'
+        name: "11",
+        password: "22",
+        confirmPassword: "33",
+        mail: "44"
     }
 ];
 
-// app.get('/', function (req, res) {
-//     res.send("hello");
-// });
-app.get('/users', function (req, res) {
-    res.send(users);
-});
+app.post('/newUser', function (req, res) {
 
-app.get('/users/:id', function (req, res) {
-    var user = users.find(function (user) {
-       return user.id === Number(req.params.id)
-    });
-
-    res.send(user);
-});
-
-app.post('/users', function (req, res) {
-    var user = {
+    var newUersData = {
         id: Date.now(),
-        name: req.body.name
+        name: req.body.name,
+        password: req.body.password,
+        confirmPassword: req.body.confirmPassword,
+        email: req.body.email
     };
 
-    console.log(JSON.stringify(req.body));
+    users.push(newUersData);
+    res.send(users);
 
-    users.push(user);
-    res.send(JSON.stringify(req.body))
+    console.log(req.body);
+    // res.json(req.body);
 });
 
-app.listen(3012, function () {
-    console.log("API app started on port 3012")
-});
+
 
 
 // view engine setup
@@ -92,4 +89,13 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
+app.listen(port, function () {
+    console.log("API app started on port " + port)
+});
+
 module.exports = app;
+
+
+
+

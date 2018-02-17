@@ -12,8 +12,12 @@ input{
   border-radius: 5px;
   border: 1px solid #ffd7d7;
   padding: 5px 0 5px 20px;
+  margin: 0 0 20px 0;
 }
-
+form{
+  padding: 20px;
+  border: 1px solid #002eff;
+}
 .form__wrap{
   height: 100vh;
   display: flex;
@@ -24,10 +28,34 @@ input{
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 500px;
-  height: 300px;
+  width: 400px;
 }
 
 .form__wrap form input + input{
   margin-top: 10px;
+}
+
+.btn-primary{
+  margin-top: 50px;
+  display: block;
+  width: 100%;
+}
+.col-12{
+  position: relative;
+}
+.valid-feedback{
+  position: absolute;
+  bottom: 4px;
+  left: 7px;
+}
+.invalid-feedback{
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+}
+.col-12 + .col-12{
+  margin-top: 3px;
+}
+.form-control{
+  border: 2px solid red
 }
