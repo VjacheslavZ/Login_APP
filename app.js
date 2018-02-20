@@ -5,15 +5,64 @@ var app = express(),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
     index = require('./routes/index'),
-    port = 8080;
+    port = 8080,
+    fs = require("fs");
 
 // var users = require('./routes/users');
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/myApp', { })
-    .then(() => console.log('mongoDB started'))
-    .catch( e => console.log(e) );
+
+mongoose.connect('mongodb://localhost/myApp', {})
+    .then(() => console.log('MongoDB started'))
+    .catch( e => console.log('mongoDB error' + e));
+
+require('./person.model');
+
+const Person = mongoose.model('persons');
+
+// const person = new Person({
+//     name: 'first user',
+//     age: 37,
+//     phones: ['0662103170', '088000000']
+// });
+
+// person.save()
+//     .then( user => console.log(user) )
+//     .catch( e => console.log(e) );
+
+/*сортировка по заданному условию*/
+// Person
+//     .find({name: {'$in':['person1','person2','person3']}})
+//     .limit(2)
+//     .sort('-age')
+//     .then(persons => console.log( JSON.stringify(persons, null, 2) ))
+//     .catch(e => console.log(e));
+
+// Person.find({name: 'person1', /*другие условия*/})
+//     .then(persons => console.log( JSON.stringify(persons, null, 2) ))
+//     .catch(e => console.log(e));
+
+/*удаление модели*/
+// Person
+//     .find({age: 37})
+//     .limit(2)
+//     .then(persons => {
+//         const p = persons[0];
+//         /*удаление*/
+//         //Person.find({_id: p._id}).remove().then(_ => console.log("removed"));
+//     })
+//     .catch(e => console.log(e));
+
+
+//пишим в бд новых пользователей
+// [{name: 'person1', age: 55},
+// {name: 'person2', age: 70},
+// {name: 'person3', age: 30}]
+// .forEach(p => {
+//    new Person(p).save()
+// });
+
 
 app.use(bodyParser());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,7 +70,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/users', function (req, res) {
     res.send("users");
 });
-
 
 var users = [
     {
@@ -39,24 +87,24 @@ var users = [
     }
 ];
 
-app.post('/newUser', function (req, res) {
+app.post('/register', function (req, res) {
+
+    if(!req.body) return res.sendStatus(400);
+
 
     var newUersData = {
-        id: Date.now(),
-        name: req.body.name,
-        password: req.body.password,
+        userName: req.body.userName,
+        userPassword: req.body.userPassword,
         confirmPassword: req.body.confirmPassword,
-        email: req.body.email
+        userEmail: req.body.userEmail,
     };
 
-    users.push(newUersData);
-    res.send(users);
+    // users.push(newUersData);
+    res.send(newUersData);
 
-    console.log(req.body);
+    console.log(newUersData);
     // res.json(req.body);
 });
-
-
 
 
 // view engine setup
@@ -88,7 +136,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 app.listen(port, function () {
     console.log("API app started on port " + port)

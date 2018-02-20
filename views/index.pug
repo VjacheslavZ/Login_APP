@@ -6,19 +6,16 @@ block content
   //h1= title
   //p Welcome to #{title}
   .form__wrap
-    form(action="/newUser" method="POST")
+    form(action="/register" method="POST" name="registerForm")
       .form-row
-
-        .is-valid
-
         //classes .is-valid .is-invalid
         .col-12
             label(for='validName') First name
-            input.form-control.is-valid(name='name' type='text', placeholder='Name', value='')#validName
+            input.form-control.is-valid(name='userName' type='text', placeholder='Name', value='')#validName
         .col-12
           label(for='validPassword') Password
           .input-group
-            input.form-control.is-invalid(name='password' type='text', placeholder='User name')#validPassword
+            input.form-control.is-invalid(name='userPassword' type='text', placeholder='User name')#validPassword
         .col-12
           label(for='validConfirmPassword') Confirm password
           .input-group
@@ -26,7 +23,7 @@ block content
         .col-12
           label(for='validEmail') Email
           .input-group
-            input.form-control.is-invalid(name='email' type='text', placeholder='Email', aria-describedby='inputGroupPrepend3')#validEmail
+            input.form-control.is-invalid(name='userEmail' type='text', placeholder='Email', aria-describedby='inputGroupPrepend3')#validEmail
 
 
 
