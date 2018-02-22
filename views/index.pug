@@ -1,33 +1,39 @@
 extends layout
 
 block content
-  //h1 hello
-
-  //h1= title
-  //p Welcome to #{title}
-  .form__wrap
-    form(action="/register" method="POST" name="registerForm")
-      .form-row
-        //classes .is-valid .is-invalid
-        .col-12
-            label(for='validName') First name
-            input.form-control.is-valid(name='userName' type='text', placeholder='Name', value='')#validName
-        .col-12
-          label(for='validPassword') Password
-          .input-group
-            input.form-control.is-invalid(name='userPassword' type='text', placeholder='User name')#validPassword
-        .col-12
-          label(for='validConfirmPassword') Confirm password
-          .input-group
-            input.form-control.is-invalid(name='confirmPassword' type='text', placeholder='confirm-password')#validConfirmPassword
-        .col-12
-          label(for='validEmail') Email
-          .input-group
-            input.form-control.is-invalid(name='userEmail' type='text', placeholder='Email', aria-describedby='inputGroupPrepend3')#validEmail
-
-
-
-        input.btn.btn-primary(type='submit' value="submit")
-
-
-
+  h1 Login Register
+  // main
+  .main
+    // login-profile
+    // login-profile
+    // signin-form
+    //.w3
+      .signin-form.profile
+        h3 Login
+        .login-form
+          form(action='/', method='post')
+            input(type='text', name='email', placeholder='E-mail', required='')
+            input(type='password', name='password', placeholder='Password', required='')
+            .tp
+              input(type='submit', value='LOGIN NOW')
+        //.header-social.wthree
+          a.face(href='#')
+            h5 Facebook
+          a.goog(href='#')
+            h5 Google+
+          .clear
+        p
+          a(href='#')  Don't have an account?
+    .agile
+      .signin-form.profile
+        h3 Register
+        .login-form
+          form(action='/', method='post')
+            input(type='text', name='email', placeholder='E-mail', required='')
+            input(type='text', name='username', placeholder='Username', required='')
+            input(type='password', name='password', placeholder='Password', required='')
+            input(type='password', name='passwordConf', placeholder='Confirm Password', required='')
+            input(type='submit', value='REGISTER')
+        p
+          a(href='#')  By clicking register, I agree to your terms
+    .clear
