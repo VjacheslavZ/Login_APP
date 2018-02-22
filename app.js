@@ -13,21 +13,35 @@ mongoose.Promise = global.Promise;
 
 mongoose.connect('mongodb://localhost/myApp', {})
     .then(() => console.log('MongoDB started'))
-    .catch( e => console.log('mongoDB error' + e));
+    .catch(e => console.log('mongoDB error' + e));
+
+var db = mongoose.connection;
 
 app.use(bodyParser());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/users', function (req, res) {
     res.send("users");
 });
 
+//use sessions for tracking logins
+app.use(session({
+    secret: 'work hard',
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+        mongooseConnection: db
+    })
+}));
+
 // include routes
 var routes = require('./routes/router');
+
 app.use('/', routes);
 
-
 app.set('views', path.join(__dirname, 'views'));
+
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));

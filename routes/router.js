@@ -29,30 +29,34 @@ router.post('/', function (req, res, next) {
             passwordConf: req.body.passwordConf,
         };
 
-        console.log(userData);
+        console.log(`userData = ${userData.email}, ${userData.username}, ${userData.password}, ${userData.passwordConf}`);
 
         User.create(userData, function (error, user) {
             if (error) {
                 return next(error);
             } else {
-                //req.session.userId = user._id;
+                req.session.userId = user._id;
 
+                console.log(`req.session.userId = ${req.session.userId}`);
 
                 return res.redirect('/profile');
             }
         });
 
     } else if (req.body.logemail && req.body.logpassword) {
-        // User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
-        //     if (error || !user) {
-        //         var err = new Error('Wrong email or password.');
-        //         err.status = 401;
-        //         return next(err);
-        //     } else {
-        //         req.session.userId = user._id;
-        //         return res.redirect('/profile');
-        //     }
-        // });
+        User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
+
+            console.log(req.body.logemail, req.body.logpassword);
+
+            if (error || !user) {
+                var err = new Error('Wrong email or password.');
+                err.status = 401;
+                return next(err);
+            } else {
+                req.session.userId = user._id;
+                return res.redirect('/profile');
+            }
+        });
     } else {
         // var err = new Error('All fields required.');
         // err.status = 400;
@@ -62,6 +66,9 @@ router.post('/', function (req, res, next) {
 
 // GET route after registering
 router.get('/profile', function (req, res, next) {
+
+    return res.send('profile page')
+
     // User.findById(req.session.userId)
     //     .exec(function (error, user) {
     //         if (error) {

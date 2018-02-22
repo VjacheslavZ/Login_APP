@@ -7,13 +7,13 @@ block content
     // login-profile
     // login-profile
     // signin-form
-    //.w3
+    .w3
       .signin-form.profile
         h3 Login
         .login-form
           form(action='/', method='post')
-            input(type='text', name='email', placeholder='E-mail', required='')
-            input(type='password', name='password', placeholder='Password', required='')
+            input(type='text', name='logemail', placeholder='E-mail', required='')
+            input(type='password', name='logpassword', placeholder='Password', required='')
             .tp
               input(type='submit', value='LOGIN NOW')
         //.header-social.wthree
@@ -36,4 +36,3 @@ block content
             input(type='submit', value='REGISTER')
         p
           a(href='#')  By clicking register, I agree to your terms
-    .clear
