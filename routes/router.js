@@ -9,35 +9,34 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/', function (req, res, next) {
-    // confirm that user typed same password twice
+
     if (req.body.password !== req.body.passwordConf) {
         var err = new Error('Passwords do not match.');
         err.status = 400;
         res.send("passwords dont match");
         return next(err);
     }
+
     if (req.body.email &&
         req.body.username &&
-        req.body.password &&
-        req.body.passwordConf) {
+        req.body.password) {
+
+        var date = Date.now();
 
         var userData = {
             email: req.body.email,
             username: req.body.username,
             password: req.body.password,
-            passwordConf: req.body.passwordConf,
         };
 
-        console.log(`userData = ${userData.email}, ${userData.username}, ${userData.password}, ${userData.passwordConf}`);
+        //console.log(`userData = ${userData.email}, ${userData.username}, ${userData.password}, ${userData.passwordConf}`);
 
         User.create(userData, function (error, user) {
             if (error) {
                 return next(error);
             } else {
                 req.session.userId = user._id;
-
-                console.log(`req.session.userId = ${req.session.userId}`);
-
+                //console.log(`req.session.userId = ${req.session.userId}`);
                 return res.redirect('/profile');
             }
         });
@@ -53,6 +52,10 @@ router.post('/', function (req, res, next) {
                 return next(err);
             } else {
                 req.session.userId = user._id;
+
+                console.log(req.session.userId);
+
+                // return res.redirect('/profile/' + req.session.userId);
                 return res.redirect('/profile');
             }
         });
@@ -64,6 +67,7 @@ router.post('/', function (req, res, next) {
 });
 
 // GET route after registering
+// router.get('/profile/:id', function (req, res, next) {
 router.get('/profile', function (req, res, next) {
 
     User.findById(req.session.userId)
@@ -76,6 +80,7 @@ router.get('/profile', function (req, res, next) {
                     err.status = 400;
                     return next(err);
                 } else {
+
                     return res.send('<h1>Name: </h1>' + user.username + '<h2>Mail: </h2>' + user.email + '<br><a type="button" href="/logout">Logout</a>')
                 }
             }
@@ -85,8 +90,6 @@ router.get('/profile', function (req, res, next) {
 // GET for logout logout
 router.get('/logout', function (req, res, next) {
     console.log(req.session);
-
-    // req.session = null;
     if (req.session) {
         // delete session object
         req.session.destroy(function (err) {
