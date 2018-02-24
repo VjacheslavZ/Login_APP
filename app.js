@@ -17,12 +17,10 @@ mongoose.connect('mongodb://localhost/myApp', {})
 
 var db = mongoose.connection;
 
-app.use(bodyParser());
-
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.get('/users', function (req, res) {
-    res.send("users");
+//handle mongo error
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+    // we're connected!
 });
 
 //use sessions for tracking logins
@@ -35,9 +33,18 @@ app.use(session({
     })
 }));
 
+app.use(bodyParser());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get('/users', function (req, res) {
+    res.send("users");
+});
+
+
+
 // include routes
 var routes = require('./routes/router');
-
 app.use('/', routes);
 
 app.set('views', path.join(__dirname, 'views'));
