@@ -16,15 +16,11 @@ mongoose.connect('mongodb://localhost/myApp', {})
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-//db.once('open', function () {
-    // we're connected!
-//});
 
-//use sessions for tracking logins
 app.use(session({
     secret: 'work hard',
-    resave: true,
-    saveUninitialized: false,
+    resave: false,
+    saveUninitialized: true,
     store: new MongoStore({
         mongooseConnection: db
     })
@@ -33,11 +29,6 @@ app.use(session({
 app.use(bodyParser());
 
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// app.get('/users', function (req, res) {
-//     res.send("users");
-// });
-
 
 // include routes
 var routes = require('./routes/router');
@@ -67,9 +58,13 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(port, function () {
-    console.log("API app started on port " + port)
+app.listen(port, () => {
+    console.log(`API app started on port ${port}`)
 });
+
+
+
+
 
 module.exports = app;
 
